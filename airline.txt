@@ -1,0 +1,152 @@
+#include<stdio.h>
+#include<ctype.h>
+
+#define MAX_NUM_SEATS (20)
+#define MAX_NUM_SEATS_IN_FIRST_CLASS   (5)
+#define MAX_NUM_SEATS_IN_ECONOMY            (MAX_NUM_SEATS - MAX_NUM_SEATS_IN_FIRST_CLASS)
+
+int main()
+{
+      int plane[MAX_NUM_SEATS] = {0}, i=0;
+      int nNumSeatsInFirst = 0;
+      int nNumSeatsInEconomy = 0;
+      int nSeatAssignmentFirstClass = 1; 
+      int nSeatAssignmentEconomy = MAX_NUM_SEATS_IN_FIRST_CLASS + 1; 
+      int choice;
+      int nClass;
+      int nCurrentSeatAssignment;
+      char response[2];
+      char firstname[35], lastname[35];
+      int       bPrintTicket;
+      
+      while( i < MAX_NUM_SEATS )
+      {
+            printf("\n%s\n%s\n", "Please type 1 for \"First class\"","Please type 2 for\"Economy\"");
+            scanf("%d", &choice);
+            
+            if( !( ( 1 == choice ) || ( 2 == choice ) ) )
+            {
+                  printf("*** YOUR ENTRY IS INVALID.....PLEASE TRY AGAIN ***\n");
+                  continue;
+            }
+            
+            bPrintTicket = 1;
+            
+            printf("\nEnter first name:");
+            scanf("%s",firstname);
+            
+            printf("\nEnter lastname :");
+            scanf("%s", lastname);
+            
+            nClass = choice;
+            if( 2 == choice )
+            {
+                  if( nNumSeatsInEconomy >= MAX_NUM_SEATS_IN_ECONOMY )
+                  {
+                        if( nNumSeatsInFirst <= MAX_NUM_SEATS_IN_FIRST_CLASS )
+                        {
+                              printf("The economy section is full.\n");
+                              printf("would you like to sit in first class ");
+                              printf("section( Y or N)?");
+                              scanf("%s", response);
+                              
+                              if ( toupper(response[0])=='Y')
+                              {
+                                    bPrintTicket = 1;
+                                    printf( "Your seat assignment is %d\n", nSeatAssignmentFirstClass );
+                                    nCurrentSeatAssignment = nSeatAssignmentFirstClass;
+                                    plane[nSeatAssignmentFirstClass - 1] = 1;
+                                    nSeatAssignmentFirstClass++;
+                                    nNumSeatsInFirst++;
+                                    nClass = 1;
+                                    i++;
+                              }
+                              else                              
+                              {
+                                    bPrintTicket = 0;
+                                    printf("Next flight leaves in 3 hours.\n");
+                              }
+                        }
+                        else
+                        {
+                              bPrintTicket = 0;
+                              printf("Plane is full, next flight in 3 hours\n");
+                        }
+                  }
+                  else
+                  {      
+                        printf("Your seat assignment is %d\n", nSeatAssignmentEconomy );
+                        plane[(nSeatAssignmentEconomy - 1)] = 1;
+                        nCurrentSeatAssignment = nSeatAssignmentEconomy;
+                        nSeatAssignmentEconomy++;
+                        nNumSeatsInEconomy++;                        
+                        i++;
+                  }
+            }
+            if( 1 == choice )
+            {
+                  if( nNumSeatsInFirst >= MAX_NUM_SEATS_IN_FIRST_CLASS )
+                  {
+                        if( nNumSeatsInEconomy <= MAX_NUM_SEATS_IN_ECONOMY )
+                        {
+                              printf("The First Class section is full.\n");
+                              printf("Would you like to sit in the economy ");
+                              printf("section (Y or N)?");
+                              scanf("%s", response);
+                              
+                             
+                              if(toupper(response[0])=='Y')
+                              {                                    
+                                    printf("Your seat assignment is %d\n",nSeatAssignmentEconomy);
+                                    plane[nSeatAssignmentEconomy - 1] = 1;
+                                    nCurrentSeatAssignment = nSeatAssignmentEconomy;
+                                    nSeatAssignmentEconomy++;
+                                    nNumSeatsInEconomy++;
+                                    i++;
+                                    nClass = 2;
+                              }
+                              else
+                              {
+                                    bPrintTicket = 0;
+                                    printf("Next flight leaves in 3 hours.\n");
+                              }
+                        }
+                        else
+                        {
+                              bPrintTicket = 0;
+                              printf("Plane is full, next flight in 3 hours\n");
+                        }
+                  }
+                  else
+                  {
+                        printf("Your seat assignment is %d\n", nSeatAssignmentFirstClass );
+                        plane[(nSeatAssignmentFirstClass - 1)] = 1;
+                        nCurrentSeatAssignment = nSeatAssignmentFirstClass;
+                        nSeatAssignmentFirstClass++;
+                        nNumSeatsInFirst++;
+                        i++;
+                  }
+            }
+            
+            if( 1 == bPrintTicket )
+            {
+                  printf(" ****************************************\n");
+                  printf(" *                            *\n");
+                  printf("    NAME:%s, %s                 \n",firstname,lastname);
+                  printf(" *                            *\n");
+                  printf("    CLASS:%d                      \n",nClass);
+                  printf(" *                            *\n");
+                  printf("    SEAT:%d                      \n",nCurrentSeatAssignment);
+                  printf(" *                            *\n");
+                  printf("    BOOKING ID: 100%d%d          \n",nClass,nCurrentSeatAssignment);
+                  printf(" *                            *\n");
+                  printf(" ****************************************\n");
+                  printf("*** THANK YOU! VISIT AGAIN ***\n");
+            }
+            
+  }
+  
+  printf("\nAll the seats for this flight are sold\n");
+  
+  return 0;
+}
